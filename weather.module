@@ -1,0 +1,45 @@
+<?php
+
+use Drupal\block\Entity\Block;
+
+/**
+ * Implements hook_theme().
+ */
+function weather_theme() {
+  return [
+    'weather' => [
+      'variables' => [
+        'temp' => NULL,
+        'data' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Creating cron for weather state revision.
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function weather_cron() {
+  if (date('G', time() == 10)) {
+    $storage = Drupal::entityTypeManager()->getStorage('weatherentity');
+    $blocks = Block::loadMultiple();
+    foreach ($blocks as $key => $block) {
+      $settings = $block->get('settings');
+      $my_field = $settings['city'];
+    }
+    $config = \Drupal::configFactory()->get('weather.settings')->get('api_key');
+    $res = file_get_contents('https://api.openweathermap.org/data/2.5/weather?q=' . $my_field . '&units=metric&appid=' . $config);
+    $res = json_decode($res, TRUE);
+    $tempCel = intval(round($res['main']['temp']));
+    $values = [
+      'city_field' => $my_field,
+      'temperature' => $tempCel,
+    ];
+    $entity = $storage->create($values);
+    $entity->save();
+  }
+}

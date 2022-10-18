@@ -1,0 +1,15 @@
+weather_key:
+  path: '/admin/structure/api-key'
+  defaults:
+    _title: 'OpenWeather Api Key'
+    _form: 'Drupal\weather\Form\WeatherKeyForm'
+  requirements:
+    _permission: 'administer site configuration'
+
+#weather.settings:
+#  path: '/admin/config/weather'
+#  defaults:
+#    _form: 'Drupal\weather\Form\WeatherKeyForm'
+#    _title: 'OpenWeather'
+#  requirements:
+#    _permission: 'administer site configuration'
