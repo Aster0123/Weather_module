@@ -5,11 +5,3 @@ weather_key:
     _form: 'Drupal\weather\Form\WeatherKeyForm'
   requirements:
     _permission: 'administer site configuration'
-
-#weather.settings:
-#  path: '/admin/config/weather'
-#  defaults:
-#    _form: 'Drupal\weather\Form\WeatherKeyForm'
-#    _title: 'OpenWeather'
-#  requirements:
-#    _permission: 'administer site configuration'

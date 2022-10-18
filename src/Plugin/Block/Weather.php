@@ -9,7 +9,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a 'OpenWeather' Block.
+ * Provides a 'Weather' Block.
  *
  * @Block(
  *   id = "weather_block",
@@ -55,14 +55,6 @@ class Weather extends BlockBase implements ContainerFactoryPluginInterface {
   }
 
   /**
-   * Gets my setting.
-   */
-  public function getMySetting() {
-    $config = $this->configFactory->get('weather.settings');
-    return $config->get('api_key');
-  }
-
-  /**
    * Building block for getting city and temperature.
    */
   public function build() {
@@ -78,6 +70,14 @@ class Weather extends BlockBase implements ContainerFactoryPluginInterface {
       '#theme' => 'weather',
       '#temp' => $temp,
     ];
+  }
+
+  /**
+   * Gets my setting.
+   */
+  public function getMySetting() {
+    $config = $this->configFactory->get('weather.settings');
+    return $config->get('api_key');
   }
 
   /**
@@ -108,8 +108,7 @@ class Weather extends BlockBase implements ContainerFactoryPluginInterface {
     $res = @file_get_contents('https://api.openweathermap.org/data/2.5/weather?q=' . $city . '&units=metric&appid=' . $key);
     if (empty(
     $form_state->getValue('city'))) {
-      $form_state->setErrorByName('city',
-        $this->t('Fields should not be empty.'));
+      $form_state->setErrorByName('city', $this->t('Fields should not be empty.'));
     }
     if (!preg_match($pattern, $form_state->getValue('city'))) {
       $form_state->setErrorByName('city', $this->t('City name invalid.'));

@@ -30,7 +30,7 @@ class WeatherKeyForm extends ConfigFormBase {
    * Creating form for getting api key.
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $config          = $this->config('weather.settings');
+    $config = $this->config('weather.settings');
     $form['api_key'] = [
       '#required' => TRUE,
       '#type' => 'textfield',
@@ -58,8 +58,7 @@ class WeatherKeyForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->config('weather.settings');
-    $config
-      ->set('api_key', $form_state->getValue('api_key'))
+    $config->set('api_key', $form_state->getValue('api_key'))
       ->save();
     parent::submitForm($form, $form_state);
   }
